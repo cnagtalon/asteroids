@@ -4,6 +4,8 @@
 import pygame
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT, BLACK
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 
 def main():
@@ -16,12 +18,19 @@ def main():
     print(f"Screen height: {SCREEN_HEIGHT}")
     updateable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
+  
+    
 
-    Player.containers = (updatable, drawable)
+    Player.containers = (updateable, drawable)
+    Asteroid.containers = (asteroids, updateable, drawable)
+    AsteroidField.containers = (updateable,)
 
 
     # Create the player before the game loop
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
+    asteroid_field = AsteroidField()
 
 
     #the game loop
@@ -32,7 +41,7 @@ def main():
             if event.type == pygame.QUIT:
                 return
             
-        for sprite in updatable:
+        for sprite in updateable:
             sprite.update(dt)
             
         screen.fill(BLACK)
